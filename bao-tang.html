@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta http-equiv="Permissions-Policy" content="accelerometer=*, gyroscope=*, xr-spatial-tracking=*, fullscreen=*, autoplay=*, encrypted-media=*, picture-in-picture=*">
+  <title>Phòng Truyền Thống Vietsovpetro</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #matterport-frame {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: none;
+    }
+
+    #matterport-frame.loaded {
+      display: block;
+    }
+
+    #gate-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 14, 23, 0.92);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 24px;
+    }
+
+    #gate-overlay.hidden {
+      display: none;
+    }
+
+    .gate-popup {
+      background: #121a2b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 36px 28px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    }
+
+    .gate-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(201, 162, 39, 0.15);
+      color: #e8c547;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 16px;
+    }
+
+    .gate-popup h2 {
+      color: #f0f4ff;
+      font-size: 1.125rem;
+      margin-bottom: 10px;
+    }
+
+    .gate-popup p {
+      color: #8b9cc0;
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .gate-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 28px;
+      background: linear-gradient(135deg, #c9a227, #a8841e);
+      color: #0a0e17;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+
+    .gate-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <div id="gate-overlay">
+    <div class="gate-popup">
+      <div class="gate-icon">🎫</div>
+      <h2>Vui lòng mua vé để được tham quan</h2>
+      <p>Bạn cần mua vé tham quan trước khi vào không gian 3D bảo tàng.</p>
+      <a href="index.html" class="gate-btn">Mua vé ngay</a>
+    </div>
+  </div>
+
+  <iframe
+    id="matterport-frame"
+    title="Phòng Truyền Thống Vietsovpetro - Matterport 3D Showcase"
+    allow="fullscreen; xr-spatial-tracking; vr; autoplay; gyroscope; accelerometer; encrypted-media; picture-in-picture; clipboard-read; clipboard-write"
+    allowfullscreen
+    webkitallowfullscreen
+    mozallowfullscreen
+    loading="eager"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+
+  <script>
+    const COOKIE_NAME = 'museum_ticket_access';
+    const MATTERPORT_SRC = 'https://my.matterport.com/show/?m=4vzqiYkykBn&play=1&wh=1&vr=1';
+
+    function hasValidTicket() {
+      return document.cookie.split(';').some(c => c.trim().startsWith(`${COOKIE_NAME}=`));
+    }
+
+    function init() {
+      const overlay = document.getElementById('gate-overlay');
+      const iframe = document.getElementById('matterport-frame');
+
+      if (hasValidTicket()) {
+        overlay.classList.add('hidden');
+        iframe.src = MATTERPORT_SRC;
+        iframe.classList.add('loaded');
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
