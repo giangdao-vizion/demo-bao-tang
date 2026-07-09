@@ -645,7 +645,7 @@
           countEl.textContent = n;
         } else {
           clearInterval(redirectTimer);
-          window.location.href = 'bao-tang.html';
+          window.location.href = `bao-tang.html?datetime=${Date.now()}`;
         }
       }, 1000);
     }
